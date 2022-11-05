@@ -5,7 +5,7 @@
         <div class="title">云E办</div>
         <el-dropdown class="userInfo" @command="commandHandler">
           <span class="el-dropdown-link">
-            {{ user.username }}<i><img :src="user.userFace" /></i>
+            {{ user.name }}<i><img :src="user.userFace" /></i>
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="userinfo">个人中心</el-dropdown-item>
@@ -22,13 +22,24 @@
                 <i :class="item.iconCls" style="color: #1accff;margin-right:5px"></i>
                 <span>{{ item.name }}</span>
               </template>
-              <el-menu-item v-for="(children, indexj) in item.children" :key="indexj">
+              <el-menu-item :index="children.path" v-for="(children, indexj) in item.children" :key="indexj">
                 {{ children.name }}
               </el-menu-item>
             </el-submenu>
           </el-menu>
         </el-aside>
-        <el-main>Main</el-main>
+        <el-main>
+          <!-- 面包屑导航区域 -->
+          <el-breadcrumb separator-class="el-icon-arrow-right" v-if="this.$router.currentRoute.path !== '/home'">
+            <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item>{{ this.$router.currentRoute.name }}</el-breadcrumb-item>
+          </el-breadcrumb>
+          <div class="homeWelcome" v-if="this.$router.currentRoute.path === '/home'">
+            欢迎来到云E办系统！
+          </div>
+          <!-- 路由点位符 -->
+          <router-view class="homeRouterView" />
+        </el-main>
       </el-container>
     </el-container>
   </div>
@@ -104,5 +115,17 @@ export default {
   height: 48px;
   border-radius: 24px;
   margin-right: 8px;
+}
+
+.homeWelcome {
+  text-align: center;
+  font-size: 30px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: #409eff;
+  padding-top: 50px;
+}
+
+.homeRouterView {
+  margin-top: 10px;
 }
 </style>
