@@ -7,7 +7,8 @@
             <el-button type="primary" size="small" @click="addPosition">添加</el-button>
         </div>
         <div class="posManaMain">
-            <el-table size="small" :data="positions" border stripe style="width: 70%">
+            <el-table size="small" @selection-change="handleSelectionChange" :data="positions" border stripe
+                style="width: 70%">
                 <el-table-column type="selection" width="55">
                 </el-table-column>
                 <el-table-column prop="id" label="编号" width="55">
@@ -26,6 +27,9 @@
                 </el-table-column>
             </el-table>
         </div>
+        <el-button type="danger" size="small" :disabled="this.multipleSelection.length == 0" @click="deleteMany">批量删除
+        </el-button>
+
         <el-dialog title="提示" :visible.sync="dialogVisible" width="30%">
             <div>
                 <el-tag>职位名称</el-tag>
@@ -51,7 +55,8 @@ export default {
             dialogVisible: false,
             updatePos: {
                 name: ''
-            }
+            },
+            multipleSelection: []
         }
     },
     // 生命周期 在组件被挂在后调用 
@@ -59,6 +64,31 @@ export default {
         this.initPositions();
     },
     methods: {
+        deleteMany() {
+            this.$confirm('此操作将永久删除[' + this.multipleSelection.length + ']条职位, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                let ids = '?'
+                this.multipleSelection.forEach(item => {
+                    ids += 'ids=' + item.id + '&'
+                })
+                this.deleteRequest('/system/basic/pos/' + ids).then(resp => {
+                    if (resp) {
+                        this.initPositions()
+                    }
+                })
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });
+            });
+        },
+        handleSelectionChange(val) {
+            this.multipleSelection = val;
+        },
         doUpdate() {
             this.putRequest('/system/basic/pos/', this.updatePos).then(resp => {
                 if (resp) {
