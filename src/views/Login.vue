@@ -15,7 +15,7 @@
 
       <el-form-item prop="code">
         <el-input type="text" v-model="loginForm.code" placeholder="点击图片更换验证码" auto-complete="false"
-          style="width: 250px; margin: 5px;"></el-input>
+          style="width: 250px; margin: 5px;" @keydown.enter.native="submitLogin"></el-input>
         <img :src="captchaUrl" @click="updateCaptcha" />
       </el-form-item>
 

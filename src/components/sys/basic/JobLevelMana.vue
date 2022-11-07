@@ -193,5 +193,5 @@ export default {
 }
 </script>
 <style>
-.dialog-footer {}
+
 </style>
