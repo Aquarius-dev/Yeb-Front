@@ -33,7 +33,7 @@ export default {
       captchaUrl: "/captcha?time=" + new Date(),
       loginForm: {
         username: "admin",
-        password: "123",
+        password: "password",
         code: "",
       },
       loading: false,

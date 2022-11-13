@@ -11,6 +11,7 @@ import { putRequest } from '@/utils/api';
 import { getRequest } from '@/utils/api';
 import { deleteRequest } from '@/utils/api';
 import { initMenu } from './utils/menus';
+import { downloadRequest } from '@/utils/download';
 import 'font-awesome/css/font-awesome.css';
 
 Vue.use(ElementUI);
@@ -20,6 +21,7 @@ Vue.prototype.postRequest = postRequest;
 Vue.prototype.putRequest = putRequest;
 Vue.prototype.getRequest = getRequest;
 Vue.prototype.deleteRequest = deleteRequest;
+Vue.prototype.downloadRequest = downloadRequest;
 
 // 注册全局前置守卫
 router.beforeEach((to, from, next) => {
