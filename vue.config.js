@@ -1,4 +1,4 @@
-let proxyObj = {} // 代理对象
+let proxyObj = {}; // 代理对象
 proxyObj['/'] = {
   // websocket
   ws: false,
@@ -6,17 +6,22 @@ proxyObj['/'] = {
   target: 'http://localhost:8081',
   // 发送请求头 host 会被设置 target
   changeOrigin: true,
-  // 不重写请求地址
+  // 不重写请求地军队保健工作址
   pathRewrite: {
-      '^/': '/'
-  }
-}
+    '^/': '/',
+  },
+};
+
+proxyObj['/ws'] = {
+  ws: false,
+  target: 'ws://localhost:8081',
+};
 
 // 访问的默认的路径和端口
 module.exports = {
   devServer: {
-      host: 'localhost',
-      port: 8080,
-      proxy: proxyObj // 代理
-  }
-}
+    host: 'localhost',
+    port: 8080,
+    proxy: proxyObj, // 代理
+  },
+};

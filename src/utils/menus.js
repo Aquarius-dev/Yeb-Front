@@ -7,7 +7,10 @@ export const initMenu = (router, store) => {
     if (data) {
       let fmtRoutes = formatRoutes(data);
       router.addRoutes(fmtRoutes);
+      // 初始化菜单
       store.commit('initRoutes', fmtRoutes);
+      // 连接websocket
+      store.dispatch('connect');
     }
   });
 };
