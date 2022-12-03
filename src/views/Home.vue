@@ -3,16 +3,21 @@
     <el-container>
       <el-header class="homeHeader">
         <div class="title">云E办</div>
-        <el-dropdown class="userInfo" @command="commandHandler">
-          <span class="el-dropdown-link">
-            {{ user.name }}<i><img :src="user.userFace" /></i>
-          </span>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="userinfo">个人中心</el-dropdown-item>
-            <el-dropdown-item command="setting">设置</el-dropdown-item>
-            <el-dropdown-item command="logout">注销</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
+        <div>
+          <el-button @click="goChat" icon="el-icon-bell" type="text" size="normal"
+            style="color:black;margin-right:8px;"></el-button>
+
+          <el-dropdown class="userInfo" @command="commandHandler">
+            <span class="el-dropdown-link">
+              {{ user.name }}<i><img :src="user.userFace" /></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="userinfo">个人中心</el-dropdown-item>
+              <el-dropdown-item command="setting">设置</el-dropdown-item>
+              <el-dropdown-item command="logout">注销</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </div>
       </el-header>
       <el-container>
         <el-aside width="200px">
@@ -50,10 +55,13 @@ export default {
   name: 'Home',
   data() {
     return {
-      user: JSON.parse(window.sessionStorage.getItem('user'))
+      // user: JSON.parse(window.sessionStorage.getItem('user'))
     }
   },
   methods: {
+    goChat() {
+      this.$router.push('/chat')
+    },
     commandHandler(command) {
       if (command === 'logout') {
         // 弹框提示用户是否要删除
@@ -79,13 +87,20 @@ export default {
           });
         });
       }
+      if (command === 'userinfo') {
+        this.$router.push('/userinfo')
+      }
 
     }
   },
   computed: {
     routes: function () {
       return this.$store.state.routes
+    },
+    user: function () {
+      return this.$store.state.currentAdmin
     }
+
   }
 }
 </script>
